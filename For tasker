@@ -1,1 +1,55 @@
+Click the plus sign in the bottom right corner of the main page
+
+Tap Phone, then tap Receive message
+
+Enter SMS in the type field
+
+For example, if you are in China, you can fill in +86xxxxxxx. For example, 
+if you want to receive a verification code from an app, you can enter 1060*, 
+which means that whenever a number starting with 1060 sends you a text message, 
+you will be able to detect it
+在发件人处填写一个电话号码，比如说你在中国，你可以填写+86xxxxxxx，比如说你想接收来自某个应用发来的验证码，
+你可以输入1060*，这意味着每当1060开头的号码给你发送短信时，你都可以检测到他
+
+Next, write a task that, if you're like me, only requires you to retrieve the 6-digit CAPTCHA number from a text message.
+You can do this:
+接着，编写一个任务，如果你和我一样，只需要取出短信中的6位验证码数字，你可以这样：
+Create a new task and select Simple Match/Regular expression
+新建一个任务，然后选择简单匹配/正则表达式
+The type can be matching regular expressions
+类型选择为：匹配正则表达式
+Text selection: Variable: Received SMS content %evtprm3
+文字处选择：变量：收到短信内容%evtprm3
+Match the regular expression with: \d{6}
+匹配正则表达式处输入：\d{6}
+Then the second step, in the bottom right corner of the task at the plus sign, 
+click the plus sign to build the second step
+接着是第二步，在任务中的右下角的加号处，点击加号来构建第二个步骤
+Select Network, then select HTTP Request within it, and method select POST
+选择网络，然后选择其中的HTTP Request，方法选择POST
+In the head, you need to use the magnifying glass icon of the button to achieve the following:
+Content-Type:application/json
+在头部，你需要使用放大镜图标的按钮来实现以下内容的运行：
+Content-Type:application/json
+Next, enter the following in the body section:
+{
+“code”: "%mt_match"
+}
+接着，在主体部分输入以下内容：
+{
+“code”: "%mt_match"
+}
+Here %mt_match is the product of matching the regular expression in the first step
+此处的%mt_match是第一步骤匹配正则表达式的产物
+After completing the two steps of the above task, exit to the main page and click √ in the upper right corner
+在完成上述任务的两个步骤的编写后，退出到主页面，点击右上角的√
+Next, let's look at termux
+接着，让我们去看看termux
+
+
+
+
+
+
+
 
