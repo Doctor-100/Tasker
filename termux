@@ -1,0 +1,68 @@
+In termux, you need to install Python and flask first
+This is done with the following two instructions
+pkg install python
+pip install tencentcloud-sdk-python
+nano ~/forward_sms.py
+
+      from tencentcloud.sms.v20210111 import sms_client, models
+      from tencentcloud.common import credential
+      
+      # 配置您的凭证
+      cred = credential.Credential("YOUR_SECRET_ID", "YOUR_SECRET_KEY")
+      client = sms_client.SmsClient(cred, "ap-guangzhou")
+      
+      # 设置短信参数
+      req = models.SendSmsRequest()
+      req.SmsSdkAppId = "1400000000"
+      req.SignName = "您的签名"
+      req.TemplateId = "123456"
+      req.TemplateParamSet = ["1234"]
+      req.PhoneNumberSet = ["+8613711112222"]
+      
+      # 发送短信
+      resp = client.SendSms(req)
+      print(resp.to_json_string())
+
+python forward_sms.py
+
+      在 Termux 中使用 nano 编辑器保存并退出
+      完成代码编写：
+      
+      在 nano 编辑器中写完 Python 代码后，准备进行保存。
+      保存文件：
+      
+      按下 **Ctrl + O**（字母 O 代表 “Output”）。
+      nano 会在底部显示 File Name to Write，确认文件名无误后按 Enter 键保存。
+      退出编辑器：
+      
+      按下 **Ctrl + X**，这会关闭 nano 编辑器并返回到终端。
+
+
+
+使用 cat 命令查看文件内容
+cat forward_sms.py
+使用 nano 命令重新打开文件进行编辑
+nano forward_sms.py
+使用 less 命令查看大文件
+less forward_sms.py
+
+使用 Tasker HTTP Request 发送请求到 Termux 内的 Flask 服务
+pip install flask
+
+        from flask import Flask, request
+        import os
+        
+        app = Flask(__name__)
+        
+        @app.route('/run_script', methods=['POST'])
+        def run_script():
+            code = request.json.get("code")
+            os.system(f"python /data/data/com.termux/files/home/forward_sms.py {code}")
+            return "Script executed", 200
+        
+        if __name__ == "__main__":
+            app.run(host='0.0.0.0', port=5000)
+
+启动 Flask 服务器
+python flask_server.py
+
